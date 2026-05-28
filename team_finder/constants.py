@@ -1,6 +1,5 @@
 from enum import StrEnum
 
-
 ABOUT_MAX_LENGTH = 256
 AVATAR_FONT_RATIO = 0.52
 AVATAR_FORMAT = "PNG"

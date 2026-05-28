@@ -1,5 +1,3 @@
-import re
-
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import PasswordChangeForm
@@ -7,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from team_finder.forms import GithubUrlValidationMixin
 
 from .models import User
+from .utils import clean_phone
 
 
 class RegisterForm(forms.ModelForm):
@@ -56,18 +55,7 @@ class ProfileForm(GithubUrlValidationMixin, forms.ModelForm):
         widgets = {"about": forms.Textarea(attrs={"rows": 4})}
 
     def clean_phone(self):
-        phone = self.cleaned_data.get("phone", "").strip()
-        if not phone:
-            return phone
-        if not re.fullmatch(r"(8|\+7)\d{10}", phone):
-            raise forms.ValidationError("Телефон должен быть в формате 8XXXXXXXXXX или +7XXXXXXXXXX")
-        normalized = "+7" + phone[1:] if phone.startswith("8") else phone
-        duplicates = User.objects.exclude(pk=self.instance.pk).filter(
-            phone__in=[normalized, "8" + normalized[2:]]
-        )
-        if duplicates.exists():
-            raise forms.ValidationError("Такой номер телефона уже используется")
-        return normalized
+        return clean_phone(self.cleaned_data.get("phone", ""), User, self.instance.pk)
 
 
 class UserPasswordChangeForm(PasswordChangeForm):

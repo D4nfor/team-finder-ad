@@ -12,7 +12,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Skill",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=124, unique=True)),
             ],
             options={"ordering": ("name",)},
@@ -20,9 +28,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="User",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("password", models.CharField(max_length=128, verbose_name="password")),
-                ("last_login", models.DateTimeField(blank=True, null=True, verbose_name="last login")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
                 ("is_superuser", models.BooleanField(default=False)),
                 ("email", models.EmailField(max_length=254, unique=True)),
                 ("name", models.CharField(max_length=124)),
@@ -33,9 +54,30 @@ class Migration(migrations.Migration):
                 ("about", models.TextField(blank=True, max_length=256)),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_staff", models.BooleanField(default=False)),
-                ("groups", models.ManyToManyField(blank=True, related_name="user_set", related_query_name="user", to="auth.group")),
-                ("skills", models.ManyToManyField(blank=True, related_name="users", to="users.skill")),
-                ("user_permissions", models.ManyToManyField(blank=True, related_name="user_set", related_query_name="user", to="auth.permission")),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.group",
+                    ),
+                ),
+                (
+                    "skills",
+                    models.ManyToManyField(
+                        blank=True, related_name="users", to="users.skill"
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.permission",
+                    ),
+                ),
             ],
             options={"ordering": ("-id",)},
         ),

@@ -1,7 +1,5 @@
 import json
 
-from django.shortcuts import get_object_or_404
-
 from .models import Skill
 
 
@@ -18,7 +16,7 @@ def get_or_create_skill(payload):
     skill_id = payload.get("skill_id")
     name = (payload.get("name") or "").strip()
     if skill_id:
-        return get_object_or_404(Skill, pk=skill_id), False
+        return Skill.objects.filter(pk=skill_id).first(), False
     if name:
         return Skill.objects.get_or_create(name=name)
     return None, False
